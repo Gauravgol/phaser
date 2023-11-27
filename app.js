@@ -1,12 +1,12 @@
 const config = {
     type: Phaser.AUTO,
-    width: 500,
-    height: 500,
+    width: 700,
+    height: 400,
     
     physics: {
       default: "arcade",
       arcade: {
-        gravity:{y:300},
+        gravity:{y:0},
         debug: false,
       },
     },
@@ -29,9 +29,11 @@ const config = {
   }
 
   function create() {
-    ball = this.physics.add.sprite(300, 600, "ball");
+    ball = this.physics.add.sprite(300, 200, "ball");
     ball.setBounce(0);
     ball.setCollideWorldBounds(true);
+    ball.setScale(0.2);
+    
     ball.setVelocity(0, 0);
 
     clockSound = this.sound.add("clock");
@@ -41,11 +43,15 @@ const config = {
   function update() {
     if (isSessionActive) {
     }
+    if (ball.x < 0 || ball.x > game.config.width) {
+        ball.setVelocityX(-ball.body.velocity.x);
+        clockSound.play();
+    }
   }
 
   function moveBall() {
     if (isSessionActive) {
-      ball.setVelocity(0, 400);
+      ball.setVelocityX(200);
     }
   }
 
